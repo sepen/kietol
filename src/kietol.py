@@ -2,7 +2,7 @@
 
 import sys, os, fcntl, pygtk, gtk, gobject, time
 
-import prefs, menu, remote, playlist, control, mplayer
+import prefs, menu, remote, playlist, control, mplayer, systray
 
 HOME = os.path.expanduser("~/.kietol")
 
@@ -13,7 +13,7 @@ class Kietol:
 	
 	versionString = "kietol v1.0"
 	window, prefs, menu, remote = None, None, None, None
-	playlist, control, mplayer = None, None, None
+	playlist, control, mplayer, systray = None, None, None, None
 	
 	#
 	#  Returns a gtk.gdk.Pixbuf
@@ -57,6 +57,7 @@ class Kietol:
 		self.mplayer = mplayer.Mplayer(self)
 		self.remote = remote.Remote(self)
 		self.playlist = playlist.Playlist(self)
+		self.systray = systray.Systray(self)
 		self.control = control.Control(self)
 		self.menu = menu.Menu(self)
 		

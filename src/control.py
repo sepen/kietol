@@ -2,7 +2,7 @@
 
 import pango, pygtk, gtk
 
-PADDING, PROG_WIDTH, PROG_HEIGHT = 2, 110, 10
+HPADDING, VPADDING, PROG_WIDTH, PROG_HEIGHT = 12, 2, 150, 10
 
 SEEK_STEP = 10
 
@@ -22,21 +22,21 @@ class Control:
 		self.kietol = kietol
 		
 		prevImg = gtk.image_new_from_stock(gtk.STOCK_MEDIA_PREVIOUS, gtk.ICON_SIZE_MENU)
-		prevImg.set_padding(PADDING, PADDING)
+		prevImg.set_padding(HPADDING, VPADDING)
 		
 		prevBox = gtk.EventBox()
 		prevBox.add(prevImg)
 		prevBox.connect("button-press-event", self.kietol.playlist.prev)
 		
 		rewImg = gtk.image_new_from_stock(gtk.STOCK_MEDIA_REWIND, gtk.ICON_SIZE_MENU)
-		rewImg.set_padding(PADDING, PADDING)
+		rewImg.set_padding(HPADDING, VPADDING)
 		
 		rewBox = gtk.EventBox()
 		rewBox.add(rewImg)
 		rewBox.connect("button-press-event", self.seek, -1 * SEEK_STEP)
 		
 		pseImg = gtk.image_new_from_stock(gtk.STOCK_MEDIA_PAUSE, gtk.ICON_SIZE_MENU)
-		pseImg.set_padding(PADDING, PADDING)
+		pseImg.set_padding(HPADDING, VPADDING)
 		pseImg.show()
 		
 		pseBox = gtk.EventBox()
@@ -44,25 +44,31 @@ class Control:
 		pseBox.connect("button-press-event", self.pause)
 		
 		stopImg = gtk.image_new_from_stock(gtk.STOCK_MEDIA_STOP, gtk.ICON_SIZE_MENU)
-		stopImg.set_padding(PADDING, PADDING)
+		stopImg.set_padding(HPADDING, VPADDING)
 		
 		stopBox = gtk.EventBox()
 		stopBox.add(stopImg)
 		stopBox.connect("button-press-event", self.kietol.playlist.stop)
 		
 		ffImg = gtk.image_new_from_stock(gtk.STOCK_MEDIA_FORWARD, gtk.ICON_SIZE_MENU)
-		ffImg.set_padding(PADDING, PADDING)
+		ffImg.set_padding(HPADDING, VPADDING)
 		
 		ffBox = gtk.EventBox()
 		ffBox.add(ffImg)
 		ffBox.connect("button-press-event", self.seek, SEEK_STEP)
 		
 		nextImg = gtk.image_new_from_stock(gtk.STOCK_MEDIA_NEXT, gtk.ICON_SIZE_MENU)
-		nextImg.set_padding(PADDING, PADDING)
+		nextImg.set_padding(HPADDING, VPADDING)
 		
 		nextBox = gtk.EventBox()
 		nextBox.add(nextImg)
 		nextBox.connect("button-press-event", self.kietol.playlist.next)
+		
+		systrayImg = gtk.image_new_from_stock(gtk.STOCK_LEAVE_FULLSCREEN, gtk.ICON_SIZE_MENU)
+		systrayImg.set_padding(HPADDING, VPADDING)
+		systrayBox = gtk.EventBox()
+		systrayBox.add(systrayImg)
+		systrayBox.connect("button-press-event", self.kietol.systray.show)
 		
 		progBar = gtk.ProgressBar()
 		progBar.set_size_request(PROG_WIDTH, PROG_HEIGHT)
@@ -75,13 +81,14 @@ class Control:
 		progBox.connect("button-press-event", self.seekPercent)
 		
 		hbox = gtk.HBox(False, 0)
-		hbox.pack_start(prevBox, True, False, 0)
-		hbox.pack_start(rewBox, True, False, 0)
-		hbox.pack_start(pseBox, True, False, 0)
-		hbox.pack_start(stopBox, True, False, 0)
-		hbox.pack_start(ffBox, True, False, 0)
-		hbox.pack_start(nextBox, True, False, 0)
-		hbox.pack_start(progBox, False, False, 0)
+		hbox.pack_start(prevBox, False, False, 0)
+		hbox.pack_start(rewBox, False, False, 0)
+		hbox.pack_start(pseBox, False, False, 0)
+		hbox.pack_start(stopBox, False, False, 0)
+		hbox.pack_start(ffBox, False, False, 0)
+		hbox.pack_start(nextBox, False, False, 0)
+		hbox.pack_start(systrayBox, False, False, 0)
+		hbox.pack_start(progBox, True, True, 0)
 		
 		target = [("text/uri-list", 0, 0)]  #external drag/drop
 		hbox.drag_dest_set(gtk.DEST_DEFAULT_ALL, target, gtk.gdk.ACTION_COPY)
@@ -132,8 +139,10 @@ class Control:
 		if time > -1:  #use time for mplayers that support it
 			minutes, seconds = int(time / 60), int(time % 60)
 			self.progBar.set_text("%d:%02d" % (minutes, seconds))
+			self.kietol.systray.refresh("%d:%02d" % (minutes, seconds))
 		else:  #or fall back on percent for old mplayers
 			self.progBar.set_text(str(percent) + "%")
+			self.kietol.systray.refresh(str(percent) + "%")
 		
 	# 
 	#  Add targets from a drag and drop event to playlist.

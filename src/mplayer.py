@@ -111,7 +111,7 @@ class Mplayer:
 		return False
 		
 	#
-	#  Queries mplayer's playback status and upates the progress bar.
+	#  Queries mplayer's playback status and updates the progress bar.
 	#
 	def queryStatus(self):
 		
