@@ -85,6 +85,12 @@ class Playlist:
 		view.modify_font(font)
 		
 		self.view = view
+		
+		scrollview = gtk.ScrolledWindow() 
+		scrollview.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+		scrollview.add(view)
+		
+		self.scrollview = scrollview
 	
 	#
 	#  Displays the main popup menu on a button-press-event.

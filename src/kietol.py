@@ -62,7 +62,7 @@ class Kietol:
 		self.menu = menu.Menu(self)
 		
 		vbox = gtk.VBox(False, 0)
-		vbox.pack_start(self.playlist.view, True, True, 0)
+		vbox.pack_start(self.playlist.scrollview, True, True, 0) 
 		vbox.pack_start(self.control.hbox, False, False, 0)
 		
 		window.add(vbox)  #prepare to start ui
