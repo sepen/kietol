@@ -144,9 +144,10 @@ class Menu:
 	def openFile(self, widget, data=None):
 		
 		SELECT_ALL = 1234
-		
+		ADD = 0
 		buttons = (  #define open and cancel buttons
 			"Select All", SELECT_ALL,
+			"Add", ADD,
 			gtk.STOCK_OPEN, gtk.RESPONSE_ACCEPT,
 			gtk.STOCK_CANCEL, gtk.RESPONSE_CLOSE
 		)
@@ -170,7 +171,15 @@ class Menu:
 				
 				self.kietol.playlist.load(fileChooser.get_filenames())
 				self.path = fileChooser.get_current_folder()
+			
+			if response == ADD: #We can add songs without closing 
 				
+				for f in fileChooser.get_filenames():  #load files or lists
+					self.pymp.playlist.add(f)
+				
+				self.path = fileChooser.get_current_folder()
+				continue
+			
 			break  #break from loop
 			
 		fileChooser.destroy()  #dispose of chooser
