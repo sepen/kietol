@@ -175,7 +175,7 @@ class Menu:
 			if response == ADD: #We can add songs without closing 
 				
 				for f in fileChooser.get_filenames():  #load files or lists
-					self.pymp.playlist.add(f)
+					self.kietol.playlist.add(f)
 				
 				self.path = fileChooser.get_current_folder()
 				continue
