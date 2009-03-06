@@ -35,8 +35,8 @@ def compare(model, iter1, iter2, data=None):
 #
 class Playlist:
 	
-	kietol, view, current, counter, history = None, None, None, 1, []
-	continuous, random, repeat = True, False, False
+	kietol, view, current, counter, history, randomlist = None, None, None, 1, [], []
+  continuous, random, repeat = True, False, False
 	loadcount, loadcur = 0, 0
 	
 	#
@@ -169,13 +169,24 @@ class Playlist:
 			it = model.get_iter_first()
 		else:
 			it = model.get_iter(self.path())
-		
+		# assign it, if not it crashes because wasn't assigned
+		# may be it needs to be fixed better
+		ind = int(model.get_string_from_iter(it))
 		if self.random:  #disregard step, use random
 			step = random.randint(1, len(model))
-		
-		ind = int(model.get_string_from_iter(it))
-		ind = (ind + step) % len(model)
-		
+			ind = int(model.get_string_from_iter(it))
+			ind = (ind + step) % len(model)
+			while ind in self.randomlist: #check if was played
+				step = random.randint(1, len(model))
+				ind = int(model.get_string_from_iter(it))
+				ind = (ind + step) % len(model)
+			self.randomlist.append(ind) #add it to the random list 
+			if (len(self.randomlist) == len(model)) and not self.repeat:
+				self.randomlist = [] #clean all
+				self.current = None
+				self.history = []
+				return self.stop(None, None)
+				
 		it = model.get_iter(str(ind))
 		
 		path = model.get_path(it)  #resolve path
@@ -487,6 +498,7 @@ class Playlist:
 			self.stop(None, None)
 			self.current = None
 			self.history = []
+			self.randomlist = []
 			
 		self.view.get_model().clear()
 		return True
