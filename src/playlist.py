@@ -171,7 +171,7 @@ class Playlist:
 			it = model.get_iter(self.path())
 		# assign it, if not it crashes because wasn't assigned
 		# may be it needs to be fixed better
-		ind = int(model.get_string_from_iter(it))
+		# ind = int(model.get_string_from_iter(it))
 		if self.random:  #disregard step, use random
 			step = random.randint(1, len(model))
 			ind = int(model.get_string_from_iter(it))
@@ -180,19 +180,53 @@ class Playlist:
 				step = random.randint(1, len(model))
 				ind = int(model.get_string_from_iter(it))
 				ind = (ind + step) % len(model)
-			self.randomlist.append(ind) #add it to the random list 
+			
+			self.randomlist.append(ind) #add it to the random list
+						
 			if (len(self.randomlist) == len(model)) and not self.repeat:
 				self.randomlist = [] #clean all
 				self.current = None
 				self.history = []
+				try:  #unbold current target in list
+					it = self.view.get_model().get_iter(self.path())
+					self.view.get_model().set(it, COL_WEIGHT_SET, False)
+				except StandardError:
+					pass
 				return self.stop(None, None)
 				
+			if (len(self.randomlist) == len(model)) and self.repeat:
+				self.randomlist = [] #clean all
+				self.history = []
+				if not self.current:  #jump from beginning
+					it = model.get_iter_first()
+				else:
+					it = model.get_iter(self.path())
+				ind = int(model.get_string_from_iter(it))
+				ind = (ind + step) % len(model)		
+				it = model.get_iter(str(ind))
+				path = model.get_path(it)  #resolve path
+				return self.play(path, log, event)
+			
+			it = model.get_iter(str(ind))
+			path = model.get_path(it)  #resolve path
+			return self.play(path, log, event)
+		
+		if not self.continuous:
+			return self.stop(None, None)
+		
+		if self.exhausted() and not self.repeat:
+			self.current = None
+			self.history = []
+			return self.stop(None, None)
+				
+		ind = int(model.get_string_from_iter(it))
+		ind = (ind + step) % len(model)		
 		it = model.get_iter(str(ind))
 		
 		path = model.get_path(it)  #resolve path
 		return self.play(path, log, event)
-		
-	#
+  
+  	#
 	#  Stops the current mplayer job and prevents a jump.
 	#
 	def stop(self, widget, event):
