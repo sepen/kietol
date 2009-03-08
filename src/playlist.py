@@ -36,7 +36,7 @@ def compare(model, iter1, iter2, data=None):
 class Playlist:
 	
 	kietol, view, current, counter, history, randomlist = None, None, None, 1, [], []
-  continuous, random, repeat = True, False, False
+	continuous, random, repeat = True, False, False
 	loadcount, loadcur = 0, 0
 	
 	#
