@@ -13,13 +13,13 @@ all: clean
 
 install: all	
 	install -d $(DESTDIR)/$(KIETOL_HOME)
-	install -m 0644 *.pyc $(DESTDIR)/$(KIETOL_HOME)
+	install -m 0644 src/*.pyc $(DESTDIR)/$(KIETOL_HOME)
 	
 	install -d $(DESTDIR)/$(PREFIX)/share/pixmaps
-	install -m 0644 *.png $(DESTDIR)/$(PREFIX)/share/pixmaps
+	install -m 0644 src/*.png $(DESTDIR)/$(PREFIX)/share/pixmaps
 	
 	install -d $(DESTDIR)/$(PREFIX)/bin
-	install -m 0755 kietol $(DESTDIR)/$(PREFIX)/bin
+	install -m 0755 src/kietol $(DESTDIR)/$(PREFIX)/bin
 	
 clean:
 	rm -f src/*.pyc src/kietol
