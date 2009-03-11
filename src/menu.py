@@ -2,7 +2,7 @@
 
 import os, pygtk, gtk, webbrowser
 
-import playlist
+import playlist, mplayer
 
 EDIT_WIDTH, EDIT_HEIGHT = 300, 200
 MPLAYERCONFFILE = os.path.expanduser("~/.kietol/mplayer")
@@ -159,47 +159,22 @@ class Menu:
 		fileChooser.set_current_folder(self.path)
 		fileChooser.set_select_multiple(True)
 		
+		# start the filter got from mplayer.get_supportedfiles
+		# filelist = self.kietol.mplayer.get_supportedfiles()
+		# print filelist
+		
+		extensions = ["mp3","mpg","mpeg","ogg","au","mov","snd","flac","wma","wmv"]
+		for ext in extensions:
+			f = gtk.FileFilter()
+			f.set_name(ext)
+			f.add_pattern("*."+ ext)
+			fileChooser.add_filter(f)
+		
 		filter_all = gtk.FileFilter()
 		filter_all.set_name("All files")
 		filter_all.add_pattern("*")
-		filter_mp3 = gtk.FileFilter()
-		filter_mp3.set_name("mp3")
-		filter_mp3.add_pattern("*.mp3")
-		filter_wma = gtk.FileFilter()
-		filter_wma.set_name("wma")
-		filter_wma.add_pattern("*.wma")
-		filter_wmv = gtk.FileFilter()
-		filter_wmv.set_name("wmv")
-		filter_wmv.add_pattern("*.wmv")
-		filter_mpg = gtk.FileFilter()
-		filter_mpg.set_name("mpg")
-		filter_mpg.add_pattern("*.mpg")
-		filter_ogg = gtk.FileFilter()
-		filter_ogg.set_name("ogg")
-		filter_ogg.add_pattern("*.ogg")
-		filter_snd = gtk.FileFilter()
-		filter_snd.set_name("snd")
-		filter_snd.add_pattern("*.snd")
-		filter_au = gtk.FileFilter()
-		filter_au.set_name("au")
-		filter_au.add_pattern("*.au")
-		filter_mov = gtk.FileFilter()
-		filter_mov.set_name("mov")
-		filter_mov.add_pattern("*.mov")
-		filter_flac = gtk.FileFilter()
-		filter_flac.set_name("flac")
-		filter_flac.add_pattern("*.flac")
 		fileChooser.add_filter(filter_all)
-		fileChooser.add_filter(filter_mp3)
-		fileChooser.add_filter(filter_wma)
-		fileChooser.add_filter(filter_mpg)
-		fileChooser.add_filter(filter_ogg)
-		fileChooser.add_filter(filter_snd)
-		fileChooser.add_filter(filter_au)
-		fileChooser.add_filter(filter_mov)
-		fileChooser.add_filter(filter_wmv)
-		fileChooser.add_filter(filter_flac)
-		
+				
 		while True:
 			
 			response = fileChooser.run()
