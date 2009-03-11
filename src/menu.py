@@ -186,6 +186,9 @@ class Menu:
 		filter_mov = gtk.FileFilter()
 		filter_mov.set_name("mov")
 		filter_mov.add_pattern("*.mov")
+		filter_flac = gtk.FileFilter()
+		filter_flac.set_name("flac")
+		filter_flac.add_pattern("*.flac")
 		fileChooser.add_filter(filter_all)
 		fileChooser.add_filter(filter_mp3)
 		fileChooser.add_filter(filter_wma)
@@ -195,6 +198,7 @@ class Menu:
 		fileChooser.add_filter(filter_au)
 		fileChooser.add_filter(filter_mov)
 		fileChooser.add_filter(filter_wmv)
+		fileChooser.add_filter(filter_flac)
 		
 		while True:
 			
