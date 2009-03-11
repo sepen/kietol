@@ -2,7 +2,7 @@
 
 import os, pygtk, gtk, webbrowser
 
-import playlist, mplayer
+import playlist
 
 EDIT_WIDTH, EDIT_HEIGHT = 300, 200
 MPLAYERCONFFILE = os.path.expanduser("~/.kietol/mplayer")
