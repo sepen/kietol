@@ -159,6 +159,23 @@ class Menu:
 		fileChooser.set_current_folder(self.path)
 		fileChooser.set_select_multiple(True)
 		
+		filter_all = gtk.FileFilter()
+		filter_all.set_name("All files")
+		filter_all.add_pattern("*")
+		filter_mp3 = gtk.FileFilter()
+		filter_mp3.set_name("mp3")
+		filter_mp3.add_pattern("*.mp3")
+		filter_wma = gtk.FileFilter()
+		filter_wma.set_name("wma")
+		filter_wma.add_pattern("*.wma")
+		filter_mpg = gtk.FileFilter()
+		filter_mpg.set_name("mpg")
+		filter_mpg.add_pattern("*.mpg")
+		fileChooser.add_filter(filter_all)
+		fileChooser.add_filter(filter_mp3)
+		fileChooser.add_filter(filter_wma)
+		fileChooser.add_filter(filter_mpg)
+		
 		while True:
 			
 			response = fileChooser.run()
