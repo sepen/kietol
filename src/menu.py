@@ -6,6 +6,7 @@ import playlist
 
 EDIT_WIDTH, EDIT_HEIGHT = 300, 200
 MPLAYERCONFFILE = os.path.expanduser("~/.kietol/mplayer")
+extensions = ["mp3","mpg","mpeg","ogg","au","mov","snd","flac","wma","wmv"]
 
 #
 #  Provides a standard menu for open, save, help, etc..
@@ -162,8 +163,7 @@ class Menu:
 		# start the filter got from mplayer.get_supportedfiles
 		# filelist = self.kietol.mplayer.get_supportedfiles()
 		# print filelist
-		
-		extensions = ["mp3","mpg","mpeg","ogg","au","mov","snd","flac","wma","wmv"]
+				
 		for ext in extensions:
 			f = gtk.FileFilter()
 			f.set_name(ext)
