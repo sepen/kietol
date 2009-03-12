@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=kietol
+GenericName=kietol
+Comment=Minimalistic GTK2 fronted for mplayer written in python
+Icon=kietol.png
+Exec=/usr/bin/kietol
+Terminal=false
+Type=Application
+Encoding=UTF-8
+Categories=Application;AudioVideo

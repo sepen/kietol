@@ -15,7 +15,8 @@ install: all
 	install -d $(DESTDIR)/$(KIETOL_HOME)
 	install -m 0644 src/*.pyc $(DESTDIR)/$(KIETOL_HOME)
 	
-	install -d $(DESTDIR)/$(PREFIX)/share/pixmaps
+	install -d $(DESTDIR)/$(PREFIX)/share/{applications,pixmaps}
+	install -m 0644 src/kietol.desktop $(DESTDIR)/$(PREFIX)/share/applications
 	install -m 0644 src/*.png $(DESTDIR)/$(PREFIX)/share/pixmaps
 	
 	install -d $(DESTDIR)/$(PREFIX)/bin
